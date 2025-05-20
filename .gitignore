@@ -1,0 +1,14 @@
+# PlatformIO build folder
+.pio/
+
+# VSCode settings (optional)
+.vscode/
+
+# Backup / crash / system files
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Local config headers
+config.h

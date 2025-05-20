@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<!-- Head -->
+
+<head>
+    <title>Volcano Cyber V. 1.9</title>
+    <!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="images/sb-logo.png"/>
+    <meta charset="utf-8">
+
+    <!-- //Meta-Tags -->
+    <!-- Index-Page-CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+    <link rel="stylesheet" href="css/slider.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- //Custom-Stylesheet-Links -->
+    <script   src="https://code.jquery.com/jquery-3.4.0.min.js"   integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="   crossorigin="anonymous"></script>
+    <script src="js/volcano.js"></script>
+    <!--fonts -->
+    <!-- //fonts -->
+	
+</head>
+<!-- //Head -->
+<!-- Body -->
+
+<body>
+
+<section class="main">
+<div onclick="location.reload()" style="font-size:25pt;padding:20px;color:#FFF;text-align: left;float: left;">
+<i class="fas fa-redo-alt"></i>
+</div>
+<div onclick="" style="font-size:25pt;padding:20px;color:#FFF;text-align: right;float: right;">
+<i class="fas fa-cog"></i>
+</div>
+	<div class="layer">
+		<div class="content-w3ls">
+			<div class="text-center icon">
+				<img src="images/sb-logo.png"><br/>
+				<h2 style="color:#FFFFFF;">Volcano Cyber</h2>
+			</div>
+			<div class="content-bottom">
+					<div id="fill" class="wthree-field">
+						<div class="loading">
+							<span></span>
+							<div class="loader"></div>
+						</div>
+					</div>
+					<div id="heaton" class="wthree-field">
+						<button onclick="heat(true)" class="btn btngreen">Heat ON</button>
+					</div>		
+					<div id="heatoff" class="wthree-field">
+						<button onclick="heat(false)" class="btn">Heat OFF</button>
+					</div>		
+					<!-- 
+					<div id="airon" class="wthree-field">
+						<button onclick="air(true)" class="btn btngreen">Air ON</button>
+					</div>
+					<div id="airoff" class="wthree-field">
+						<button onclick="air(false)" class="btn">Air OFF</button>
+					</div>
+					-->
+					<div id="shot" class="wthree-field">
+						<button onclick="air('shot')" class="btn btngreen">Shot Balloon</button>
+					</div>
+					<div id="little" class="wthree-field">
+						<button onclick="air('little')" class="btn btngreen">Little Balloon</button>
+					</div>
+					<div id="big" class="wthree-field">
+						<button onclick="air('big')" class="btn btngreen">Big Balloon</button>
+					</div>
+					<div id="stop" class="wthree-field">
+						<button onclick="air('stop')" class="btn">Stop</button>
+					</div>
+			</div>
+		</div>
+    </div>
+</section>
+<script src="js/bg.js"></script>
+</body>
+<!-- //Body -->
+</html>
