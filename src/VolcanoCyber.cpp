@@ -43,12 +43,18 @@ constexpr uint8_t POWER_PIN = D1;
 #define BOT_FIXED_AREA 0  // Number of lines in bottom fixed area (lines counted from bottom of screen)
 #define TOP_FIXED_AREA 0  // Number of lines in top fixed area (lines counted from top of screen)
 
+
+AsyncWiFiManagerParameter custom_mqtt_server("server", "MQTT Server", "", 40);
+AsyncWiFiManagerParameter custom_mqtt_port("port", "MQTT Port", "", 6);
+AsyncWiFiManagerParameter custom_mqtt_user("user", "MQTT Username", "", 32);
+AsyncWiFiManagerParameter custom_mqtt_pass("pass", "MQTT Password", "", 32);
+
 // MQTT Settings
 boolean mqttActive = false; // MQTT is disabled by default
-constexpr uint16_t mqtt_port = 1883;
-#define mqtt_server "192.168.XXX.XXX" // MQTT broker IP
-#define mqtt_user "" // MQTT broker username
-#define mqtt_password "" // MQTT broker password
+uint16_t mqtt_port = 0;
+String mqtt_server = ""; // MQTT broker IP
+String mqtt_user = ""; // MQTT broker username
+String mqtt_password = ""; // MQTT broker password
 #undef  MQTT_MAX_PACKET_SIZE // un-define max packet size
 #define MQTT_MAX_PACKET_SIZE 1024  // fix for MQTT client dropping messages over 128B
 
@@ -303,7 +309,7 @@ void reconnectMqtt() {
         String name = String(system_get_chip_id());
         logToSerial("Attempting MQTT connection...");
         // Attempt to connect
-        if (mqttClient.connect(name.c_str(), mqtt_user, mqtt_password)) {
+        if (mqttClient.connect(name.c_str(), mqtt_user.c_str(), mqtt_password.c_str())) {
             logToSerial("connected");
             // Once connected, publish an announcement...
             writeMqtt("connected", "mqtt_status");
@@ -323,12 +329,40 @@ void reconnectMqtt() {
     }
 }
 
+void loadMqttSettings() {
+    preferences.begin("mqtt", false);
+    mqtt_server = preferences.getString("server", "");
+    mqtt_port = preferences.getInt("port", 1883);
+    mqtt_user = preferences.getString("user", "");
+    mqtt_password = preferences.getString("pass", "");
+    if(mqtt_server != "" && mqtt_port != 0 && mqtt_user != "" && mqtt_password != "") {
+        mqttActive = true;
+    }
+    preferences.end();
+}
+
 void initWiFi() {
     DNSServer dns;
     wifi_station_set_hostname(const_cast<char*>(WIFI_NAME));
     AsyncWiFiManager wifiManager(&server, &dns);
+    wifiManager.addParameter(&custom_mqtt_server);
+    wifiManager.addParameter(&custom_mqtt_port);
+    wifiManager.addParameter(&custom_mqtt_user);
+    wifiManager.addParameter(&custom_mqtt_pass);
     wifiManager.autoConnect("Volcano Cyber");
     WiFi.hostname(WIFI_NAME);
+
+    String mqtt_server   = custom_mqtt_server.getValue();
+    String mqtt_port     = custom_mqtt_port.getValue();
+    String mqtt_user     = custom_mqtt_user.getValue();
+    String mqtt_password = custom_mqtt_pass.getValue();
+
+    preferences.begin("mqtt", false);
+    preferences.putString("server", mqtt_server);
+    preferences.putString("user", mqtt_user);
+    preferences.putString("pass", mqtt_password);
+    preferences.putInt("port", mqtt_port.toInt());
+    preferences.end();
     
     logToSerial("IP Address: ", false);
     logToSerial(WiFi.localIP().toString());
@@ -469,8 +503,9 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 }
 
 void initMqtt() {
+    loadMqttSettings();
     logToSerial("initMQTT");
-    mqttClient.setServer(mqtt_server, mqtt_port);
+    mqttClient.setServer(mqtt_server.c_str(), static_cast<uint16_t>(mqtt_port));
     mqttClient.setCallback(mqttCallback);
     reconnectMqtt();
     writeMqtt("OFF", "heat_switch");

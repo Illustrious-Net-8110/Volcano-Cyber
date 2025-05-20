@@ -23,8 +23,8 @@ See `docs/wiring.jpg` for wiring details.
 Connections:
 
 * `GND` → Control board ground (upper right corner)
-* `D1` → Power button simulation
-* `D2` → Air button simulation
+* `D1` → Power button 
+* `D2` → Air button 
 
 ---
 
@@ -49,6 +49,24 @@ pio run --target uploadfs      # Upload web interface
 
 ---
 
+## 🧠 TFT_eSPI Auto-Configuration (LOLIN Display)
+
+This project uses a **custom PlatformIO script** to automatically inject the correct `TFT_eSPI` configuration before each build.
+
+### 🗂️ Setup Files Location
+
+Custom display setups are stored in:
+lib/TFT_eSPI_Setups/
+├── User_Setup.h
+└── User_Setup_Select.h
+
+
+These are tailored for the **LOLIN TFT Display Shield** (ILI9341, D1 Mini).
+
+## 📱 WiFi Setup
+
+If no WiFi credentials are set, the WiFiManager will open an access point named "Volcano Cyber", which you can connect to.
+
 ## 🌐 Web Interface
 
 Access via IP (e.g. `http://192.168.xxx.xxx/`) or via hostname (e.g. `http://volcano-cyber/`) 
@@ -66,7 +84,7 @@ Includes:
 
 ## 📊 MQTT / Home Assistant Integration
 
-MQTT is hardcoded in src/VolcanoCyber.cpp
+The mqtt data is queried during WLAN setup.
 
 Via MQTT discovery:
 
@@ -77,13 +95,6 @@ Via MQTT discovery:
 
 Requires MQTT broker and Home Assistant setup.
 Topics: `volcano_cyber/<chip_id>/...`
-
----
-
-## ⚠️ Notes
-
-* Original control board is **not modified**, just simulated button presses
-* No actual temperature readout yet
 
 ---
 
