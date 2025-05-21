@@ -100,6 +100,6 @@ Topics: `volcano_cyber/<chip_id>/...`
 
 ## 👁️ Screenshots
 
-* ![Web UI](docs/webui.png)
-* ![Touch UI](docs/touchui.png)
+* ![Web UI](docs/web.png)
+* ![Touch UI](docs/touch.png)
 * ![Wiring](docs/wiring.jpg)
