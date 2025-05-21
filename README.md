@@ -78,6 +78,8 @@ Includes:
 * Balloon fill (Shot, Little, Big)
 * Auto-refreshing background via Unsplash API (or local fallback)
 
+the web interface is an “installable pwa”. This means you can “install” it in Chrome or add it to the home screen on mobile devices and it runs as a full-screen app
+
 > To use Unsplash, insert your API key in `/data/js/bg.js`
 
 ---
@@ -100,6 +102,14 @@ Topics: `volcano_cyber/<chip_id>/...`
 
 ## 👁️ Screenshots
 
-* ![Web UI](docs/web.png)
-* ![Touch UI](docs/touch.png)
-* ![Wiring](docs/wiring.jpg)
+Webinterface
+
+![Web UI](docs/web.png)
+
+Touchinterface
+
+![Touch UI](docs/touch.png)
+
+Wiring
+
+![Wiring](docs/wiring.jpg)
