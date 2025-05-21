@@ -3,6 +3,10 @@
 **Smart Mod for the Storz & Bickel Volcano Digit**
 Version: `2.1`
 
+<p align="center">
+  <img src="docs/logo.jpg" alt="Volcano Cyber" width="300"/>
+</p>
+
 ---
 
 ## ✨ Features
