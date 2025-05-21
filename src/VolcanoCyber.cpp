@@ -371,6 +371,7 @@ void initWiFi() {
     wifiManager.addParameter(&custom_mqtt_port);
     wifiManager.addParameter(&custom_mqtt_user);
     wifiManager.addParameter(&custom_mqtt_pass);
+    wifiManager.addParameter(&custom_lang);
     wifiManager.autoConnect("Volcano Cyber");
     WiFi.hostname(WIFI_NAME);
 
@@ -378,6 +379,7 @@ void initWiFi() {
     String mqtt_port     = custom_mqtt_port.getValue();
     String mqtt_user     = custom_mqtt_user.getValue();
     String mqtt_password = custom_mqtt_pass.getValue();
+    String currentLang   = custom_lang.getValue();
 
     preferences.begin("mqtt", false);
     preferences.putString("server", mqtt_server);
@@ -385,6 +387,8 @@ void initWiFi() {
     preferences.putString("pass", mqtt_password);
     preferences.putInt("port", mqtt_port.toInt());
     preferences.end();
+    
+    saveLanguageSetting(currentLang);
     
     logToSerial("IP Address: ", false);
     logToSerial(WiFi.localIP().toString());

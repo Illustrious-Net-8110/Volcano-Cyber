@@ -121,9 +121,9 @@ Wiring
 ## Credits
 
 * TFT_eSPI: [https://github.com/Bodmer/TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
-* AsyncTCP: [https://github.com/me-no-dev/AsyncTCP](https://github.com/me-no-dev/AsyncTCP)
-* AsyncWebServer: [https://github.com/me-no-dev/AsyncWebServer](https://github.com/me-no-dev/AsyncWebServer)
-* ESPAsyncWiFiManager: [https://github.com/khoih-prog/ESPAsyncWiFiManager](https://github.com/khoih-prog/ESPAsyncWiFiManager)
+* ESPAsyncTCP-esphome: [https://github.com/ottowinter/ESPAsyncTCP](https://github.com/ottowinter/ESPAsyncTCP)
+* ESPAsyncWebServer-esphome: [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer)
+* ESPAsyncWiFiManager: [https://github.com/alanswx/ESPAsyncWiFiManager](https://github.com/alanswx/ESPAsyncWiFiManager)
 * Preferences: [https://github.com/espressif/arduino-esp32/blob/master/libraries/Preferences/src/Preferences.h](https://github.com/espressif/arduino-esp32/blob/master/libraries/Preferences/src/Preferences.h)
 * PubSubClient: [https://github.com/knolleary/pubsubclient](https://github.com/knolleary/pubsubclient)
 * ArduinoJson: [https://github.com/bblanchon/ArduinoJson](https://github.com/bblanchon/ArduinoJson)
