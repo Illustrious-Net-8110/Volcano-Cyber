@@ -34,14 +34,14 @@
 <div onclick="location.reload()" style="font-size:25pt;padding:20px;color:#FFF;text-align: left;float: left;">
 <i class="fas fa-redo-alt"></i>
 </div>
-<div onclick="" style="font-size:25pt;padding:20px;color:#FFF;text-align: right;float: right;">
+<div onclick="openSettingsModal()" style="font-size:25pt;padding:20px;color:#FFF;text-align: right;float: right;">
 <i class="fas fa-cog"></i>
 </div>
 	<div class="layer">
 		<div class="content-w3ls">
 			<div class="text-center icon">
 				<img class="logo-wrapper" src="images/vc-logo.png" alt="Volcano Cyber"/>
-				<h2 style="color:#FFFFFF;">Volcano Cyber 2.1</h2>
+				<h2 style="color:#FFFFFF;">Volcano Cyber 2.2</h2>
 			</div>
 			<div class="content-bottom">
 					<div id="fill" class="wthree-field">
@@ -65,10 +65,10 @@
 					</div>
 					-->
 					<div id="shot" class="wthree-field">
-						<button onclick="air('shot')" class="btn btngreen">Shot Balloon</button>
+						<button onclick="air('shot')" class="btn btngreen">Small Balloon</button>
 					</div>
 					<div id="little" class="wthree-field">
-						<button onclick="air('little')" class="btn btngreen">Little Balloon</button>
+						<button onclick="air('little')" class="btn btngreen">1/2 Balloon</button>
 					</div>
 					<div id="big" class="wthree-field">
 						<button onclick="air('big')" class="btn btngreen">Big Balloon</button>
@@ -78,7 +78,26 @@
 					</div>
 			</div>
 		</div>
-    </div>
+		<!-- Settings Modal -->
+		<div id="settingsModal" class="modal">
+			<div class="modal-content">
+				<span class="close-button" onclick="closeSettingsModal()">&times;</span>
+				<h2>Einstellungen</h2>
+				<div>
+					<label for="languageSetting">Language: <span id="currentLanguageDisplay"></span></label>
+					<button onclick="toggleLanguageModal()">Change</button>
+				</div>
+				<div style="margin-top: 15px;">
+					<label for="balloonTimeInput">Balloon time (ms):</label>
+					<input type="number" id="balloonTimeInput" name="balloonTimeInput" min="1">
+				</div>
+				<div style="margin-top: 20px;">
+					<button onclick="saveSettings()">Save</button>
+					<button onclick="closeSettingsModal()">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 <script src="js/bg.js"></script>
 </body>

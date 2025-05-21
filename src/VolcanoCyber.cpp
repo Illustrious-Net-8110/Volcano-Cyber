@@ -1,4 +1,4 @@
-#define VC_VERSION "2.1"
+#define VC_VERSION "2.2"
 // Include Libraries
 #include <Arduino.h>
 #include <TFT_eSPI.h>           // TFT library
@@ -11,6 +11,7 @@
 #include <PubSubClient.h>
 #include <Preferences.h>
 #include <ArduinoJson.h>
+#include "translations.h"
 
 // Color Definitions
 constexpr uint16_t  BLACK = 0x0000;
@@ -43,11 +44,11 @@ constexpr uint8_t POWER_PIN = D1;
 #define BOT_FIXED_AREA 0  // Number of lines in bottom fixed area (lines counted from bottom of screen)
 #define TOP_FIXED_AREA 0  // Number of lines in top fixed area (lines counted from top of screen)
 
-
 AsyncWiFiManagerParameter custom_mqtt_server("server", "MQTT Server", "", 40);
 AsyncWiFiManagerParameter custom_mqtt_port("port", "MQTT Port", "", 6);
 AsyncWiFiManagerParameter custom_mqtt_user("user", "MQTT Username", "", 32);
 AsyncWiFiManagerParameter custom_mqtt_pass("pass", "MQTT Password", "", 32);
+AsyncWiFiManagerParameter custom_lang("lang", "Language", "", 2);
 
 // MQTT Settings
 boolean mqttActive = false; // MQTT is disabled by default
@@ -112,7 +113,28 @@ AsyncWebServer server(80);      // Web server instance
 WiFiClient mqttWiFiClient;
 PubSubClient mqttClient(mqttWiFiClient);
 
+String currentLang = "de";
+
 // Functions
+String t(const String& key) {
+    if (translations.count(key) && translations.at(key).count(currentLang)) {
+        return translations.at(key).at(currentLang);
+    }
+    return key; // fallback fallback
+}
+
+void loadLanguageSetting() {
+    preferences.begin("settings", true); // read-only
+    currentLang = preferences.getString("lang", "de");
+    preferences.end();
+}
+
+void saveLanguageSetting(String lang) {
+    preferences.begin("settings", false); // write
+    preferences.putString("lang", lang);
+    preferences.end();
+}
+
 void logToSerial(String message, boolean newLine=true) {
 	if(DEBUG_SERIAL) {
 		newLine ? Serial.println(message) : Serial.print(message);
@@ -375,7 +397,7 @@ void printHead() {
     tft.fillScreen(BLACK);
     tft.setTextSize(1);
     tft.setCursor(67, 0);
-    tft.println("Volcano Cyber V. " + String(VC_VERSION));
+    tft.println("Volcano Cyber " + String(VC_VERSION));
     tft.setTextSize(3);
 }
 
@@ -388,7 +410,7 @@ void initTFT() {
     printHead();
     tft.setTextSize(2);
     tft.setCursor(0, 20);
-    tft.println("Zum einrichten bitte mit Volcano Cyber verbinden");
+    tft.println(t("msg_connect").c_str());
 }
 
 void setSecondsToRom(int sec) {
@@ -435,18 +457,18 @@ void drawButton(int x, int y, int w, int h, const char* label, uint16_t borderCo
 
 
 void printHeatButton() {
-    const char* label = device.powerStatus ? "Aus" : "An";
+    const char* label = device.powerStatus ? "btn_off" : "btn_on";
     uint16_t borderColor = device.powerStatus ? RED : GREEN;
-    drawButton(0, 10, 160, 75, label, borderColor, WHITE);
-    drawButton(165, 10, 75, 75, "Kal", GREEN, WHITE);
+    drawButton(0, 10, 160, 75, t(label).c_str(), borderColor, WHITE);
+    drawButton(165, 10, 75, 75, t("btn_cal").c_str(), GREEN, WHITE);
 }
 
 void printGui() {
     printHead();
     printHeatButton();
-    drawButton(0, 87, 240, 75, "Klein", GREEN, WHITE, 3, true);
-    drawButton(0, 164, 240, 75, "1/2", GREEN, WHITE, 3, true);
-    drawButton(0, 241, 240, 75, "Voll", GREEN, WHITE, 3, true);
+    drawButton(0, 87, 240, 75, t("btn_small").c_str(), GREEN, WHITE, 3, true);
+    drawButton(0, 164, 240, 75, t("btn_half").c_str(), GREEN, WHITE, 3, true);
+    drawButton(0, 241, 240, 75, t("btn_full").c_str(), GREEN, WHITE, 3, true);
     screen = MAIN;
     device.touchCheckInterval = 50;
 }
@@ -609,7 +631,7 @@ void statusHandler(AsyncWebServerRequest *request) {
     request->send(200, "application/json",
                   "{ \"heat\":" + String(device.powerStatus) + ", \"air\":" + String(device.airStatus) + ", \"poweroff\":" +
                   String(returnTime) + ", \"maxSeconds\":" +
-                  String(device.seconds) + "}");
+                  String(device.seconds) + ", \"lang\":\"" + String(currentLang) + "\"}");
 }
 void setStopTime(long milliSec) {
     device.stopTime = millis() + milliSec;
@@ -795,6 +817,16 @@ void switchHandler(AsyncWebServerRequest *request) {
     if (action == "stop") {
         stopB();
     }
+    if (action == "lang") {
+        String lang = request->getParam("lang")->value();
+        saveLanguageSetting(lang);
+        loadLanguageSetting();
+        printGui();
+    }
+    if(action == "calibration") {
+        String cal = request->getParam("cal")->value();
+        setSecondsToRom(cal.toInt());
+    }
     statusHandler(request);
 }
 
@@ -875,6 +907,7 @@ void screensaver() {
 void setup() {
     // Initialize Serial, Pins, TFT, and WiFi
     initSerial();
+    loadLanguageSetting();
     initDevice();
     initPins();
 
