@@ -695,4 +695,20 @@ input:checked+.slider:before {
    
 }
 
+.logo-wrapper {
+    width: 75px;
+    height: 75px;
+    border-radius: 15%; /* iOS-like shape */
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background: white; /* optional, falls PNG transparent ist */
+  }
+
+  .logo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
 /* -- //Responsive code -- */
