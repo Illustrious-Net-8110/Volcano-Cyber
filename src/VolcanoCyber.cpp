@@ -50,7 +50,12 @@ AsyncWiFiManagerParameter custom_mqtt_server("server", "MQTT Server", "", 40);
 AsyncWiFiManagerParameter custom_mqtt_port("port", "MQTT Port", "", 6);
 AsyncWiFiManagerParameter custom_mqtt_user("user", "MQTT Username", "", 32);
 AsyncWiFiManagerParameter custom_mqtt_pass("pass", "MQTT Password", "", 32);
-AsyncWiFiManagerParameter custom_lang("lang", "Language", "", 2);
+const char LANGUAGE_DROPDOWN[] =
+    "<label for='lang'>Language</label><select id='lang' name='lang'>"
+    "<option value='de'>de</option>"
+    "<option value='en'>en</option>"
+    "</select>";
+AsyncWiFiManagerParameter custom_lang(LANGUAGE_DROPDOWN);
 
 // MQTT Settings
 boolean mqttActive = false; // MQTT is disabled by default
@@ -395,7 +400,7 @@ void initWiFi() {
     String mqtt_port     = custom_mqtt_port.getValue();
     String mqtt_user     = custom_mqtt_user.getValue();
     String mqtt_password = custom_mqtt_pass.getValue();
-    String currentLang   = custom_lang.getValue();
+    String currentLang   = wifiManager.server->arg("lang");
 
     preferences.begin("mqtt", false);
     preferences.putString("server", mqtt_server);
