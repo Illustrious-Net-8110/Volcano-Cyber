@@ -13,6 +13,8 @@
 #include <ArduinoJson.h>
 #include "translations.h"
 
+using namespace VolcanoTranslations;
+
 // Color Definitions
 constexpr uint16_t  BLACK = 0x0000;
 constexpr uint16_t  RED   = 0xF800;
@@ -113,7 +115,7 @@ AsyncWebServer server(80);      // Web server instance
 WiFiClient mqttWiFiClient;
 PubSubClient mqttClient(mqttWiFiClient);
 
-String currentLang = "de";
+String VolcanoTranslations::currentLang = "de";
 
 // Functions
 String t(const String& key) {

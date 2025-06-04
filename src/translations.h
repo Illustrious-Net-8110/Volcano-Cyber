@@ -4,7 +4,7 @@
 #include <StreamString.h>
 
 namespace VolcanoTranslations {
-  extern String currentLang = "de";
+  extern String currentLang;
 } // namespace VolcanoTranslations
 
 const std::map<String, std::map<String, String>> translations = {
