@@ -1,4 +1,4 @@
-#define VC_VERSION "2.2"
+#define VC_VERSION "2.3"
 // Include Libraries
 #include <Arduino.h>
 #include <TFT_eSPI.h>           // TFT library
@@ -87,7 +87,13 @@ struct DeviceStatus {
     boolean calExit = false;
 } device;
 
-constexpr boolean DEBUG_SERIAL = true;
+struct ToggleOperation {
+    bool active = false;
+    int pin = -1;
+    unsigned long endTime = 0;
+} toggleOp;
+
+constexpr boolean DEBUG_SERIAL = false;
 
 Preferences preferences;
 
@@ -328,6 +334,9 @@ void homeAssistantDiscovery() {
 }
 
 void reconnectMqtt() {
+    if(!mqttActive) {
+        return;
+    }
     unsigned int mqttFailed = 0;
     while (!mqttClient.connected()) {
         String name = String(system_get_chip_id());
@@ -359,10 +368,15 @@ void loadMqttSettings() {
     mqtt_port = preferences.getInt("port", 1883);
     mqtt_user = preferences.getString("user", "");
     mqtt_password = preferences.getString("pass", "");
-    if(mqtt_server != "" && mqtt_port != 0 && mqtt_user != "" && mqtt_password != "") {
+    if(mqtt_server != "" && mqtt_port != 0) {
         mqttActive = true;
     }
     preferences.end();
+    logToSerial("mqtt_active: " + String(mqttActive));
+    logToSerial("mqtt_server: " + mqtt_server);
+    logToSerial("mqtt_port: " + String(mqtt_port));
+    logToSerial("mqtt_user: " + mqtt_user);
+    logToSerial("mqtt_password: " + mqtt_password);
 }
 
 void initWiFi() {
@@ -838,8 +852,9 @@ void switchHandler(AsyncWebServerRequest *request) {
 
 void toggle(int pin) {
     digitalWrite(pin, LOW);
-    delay(180);
-    digitalWrite(pin, HIGH);
+    toggleOp.active = true;
+    toggleOp.pin = pin;
+    toggleOp.endTime = millis() + 180;
     device.lastAction = millis();
 }
 
@@ -868,6 +883,13 @@ void checkAutoShutdown() {
         writeMqtt("OFF", "heat_switch");
         device.lastAction = 0;
         printHeatButton();
+    }
+}
+
+void handleToggleOperation() {
+    if (toggleOp.active && millis() >= toggleOp.endTime) {
+        digitalWrite(toggleOp.pin, HIGH);
+        toggleOp.active = false;
     }
 }
 
@@ -934,6 +956,7 @@ void setup() {
 }
 
 void loop() {
+    handleToggleOperation();
     if (device.stopTime != 0 and millis() >= device.stopTime) {
         updateStopLast();
         toggle(AIR_PIN);
