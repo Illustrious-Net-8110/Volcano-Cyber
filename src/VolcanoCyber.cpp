@@ -85,6 +85,12 @@ struct DeviceStatus {
     boolean calExit = false;
 } device;
 
+struct ToggleOperation {
+    bool active = false;
+    int pin = -1;
+    unsigned long endTime = 0;
+} toggleOp;
+
 constexpr boolean DEBUG_SERIAL = true;
 
 Preferences preferences;
@@ -836,8 +842,9 @@ void switchHandler(AsyncWebServerRequest *request) {
 
 void toggle(int pin) {
     digitalWrite(pin, LOW);
-    delay(180);
-    digitalWrite(pin, HIGH);
+    toggleOp.active = true;
+    toggleOp.pin = pin;
+    toggleOp.endTime = millis() + 180;
     device.lastAction = millis();
 }
 
@@ -866,6 +873,13 @@ void checkAutoShutdown() {
         writeMqtt("OFF", "heat_switch");
         device.lastAction = 0;
         printHeatButton();
+    }
+}
+
+void handleToggleOperation() {
+    if (toggleOp.active && millis() >= toggleOp.endTime) {
+        digitalWrite(toggleOp.pin, HIGH);
+        toggleOp.active = false;
     }
 }
 
@@ -932,6 +946,7 @@ void setup() {
 }
 
 void loop() {
+    handleToggleOperation();
     if (device.stopTime != 0 and millis() >= device.stopTime) {
         updateStopLast();
         toggle(AIR_PIN);
