@@ -40,6 +40,21 @@ Connections:
 
 ---
 
+## 🖨️ 3D Models
+
+A big thank you to [andoriusx](https://github.com/andoriusx) for creating these STL files! All models are located in the `/3d_models/` folder.
+
+| File                  | Description                                                                                                          |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------|
+| **cover.stl**         | Housing for the TFT shield & Wemos. When using the LOLIN Display Shield, the cutout aligns with the Wemos USB port, so you can reflash without removing the module. |
+| **mounting-plate.stl**| Mounts to the back of the cover and serves as the connector to the Volcano housing.                                  |
+| **screw-left.stl**    | Left counterpart that screws inside the Volcano against the mounting plate (quite fiddly).                          |
+| **screw-right.stl**   | Right counterpart mirroring `screw-left.stl` for the opposite side (quite fiddly).                                                  |
+
+> **Note:** Exact screw sizes aren’t documented.
+
+---
+
 ## 🚀 Setup
 
 ### ✈ PlatformIO
