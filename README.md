@@ -1,7 +1,7 @@
 # Volcano Cyber
 
 **Smart Mod for the Storz & Bickel Volcano Digit**
-Version: `2.2`
+Version: `2.3`
 
 <p align="center">
   <img src="docs/logo.jpg" alt="Volcano Cyber" width="300"/>
@@ -37,6 +37,21 @@ Connections:
 * **Wemos D1 Mini (ESP8266)**
 * **2.4" ILI9341 Touchscreen** (Lolin Display Shield)
 * Custom 3D-printed case
+
+---
+
+## 🖨️ 3D Models
+
+A big thank you to [andoriusx](https://github.com/andoriusx) for creating these STL files! All models are located in the `/3d_models/` folder.
+
+| File                  | Description                                                                                                          |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------|
+| **cover.stl**         | Housing for the TFT shield & Wemos. When using the LOLIN Display Shield, the cutout aligns with the Wemos USB port, so you can reflash without removing the module. |
+| **mounting-plate.stl**| Mounts to the back of the cover and serves as the connector to the Volcano housing.                                  |
+| **screw-left.stl**    | Left counterpart that screws inside the Volcano against the mounting plate (quite fiddly).                          |
+| **screw-right.stl**   | Right counterpart mirroring `screw-left.stl` for the opposite side (quite fiddly).                                                  |
+
+> **Note:** Exact screw sizes aren’t documented.
 
 ---
 
