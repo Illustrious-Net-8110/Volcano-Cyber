@@ -50,7 +50,13 @@ AsyncWiFiManagerParameter custom_mqtt_server("server", "MQTT Server", "", 40);
 AsyncWiFiManagerParameter custom_mqtt_port("port", "MQTT Port", "", 6);
 AsyncWiFiManagerParameter custom_mqtt_user("user", "MQTT Username", "", 32);
 AsyncWiFiManagerParameter custom_mqtt_pass("pass", "MQTT Password", "", 32);
-AsyncWiFiManagerParameter custom_lang("lang", "Language", "", 2);
+const char LANGUAGE_DROPDOWN[] PROGMEM =
+    "<style>#lang{display:none}</style>"
+    "<select id='lang_select' onchange=\"document.getElementById('lang').value=this.value\" >"
+    "<option value='de'>de</option>"
+    "<option value='en'>en</option>"
+    "</select>";
+AsyncWiFiManagerParameter custom_lang("lang", "Language", "", 3, LANGUAGE_DROPDOWN);
 
 // MQTT Settings
 boolean mqttActive = false; // MQTT is disabled by default
