@@ -133,6 +133,16 @@ Wiring
 
 ![Wiring](docs/wiring.jpg)
 
+## 🕵️ Hidden Feature: Disable Auto-Shutdown
+
+The original **Volcano Digit** has an undocumented feature that allows you to **disable the 30-minute automatic shutdown** timer.
+
+> 🔌 **Hold both the “Temperature +” and “Temperature –” buttons while plugging the device into a power outlet.**
+
+Once enabled, the Volcano will stay on **indefinitely** until manually turned off.
+
+⚠️ **Note:** This is a hidden feature of the original hardware and not officially documented by Storz & Bickel. Use at your own risk.
+
 ## Credits
 
 * TFT_eSPI: [https://github.com/Bodmer/TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
